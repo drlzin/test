@@ -1,0 +1,72 @@
+# Decap CMS Configuration
+# Documentation: https://decapcms.org/docs/
+
+backend:
+  name: github
+  repo: drlzin/test
+  branch: main
+
+# run: `make hugo-cms`
+local_backend: true
+
+# (draft -> review -> publish)
+publish_mode: editorial_workflow
+
+# Media files
+media_folder: "static/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  # Blog Posts
+  - name: "posts"
+    label: "Artykuły"
+    folder: "content/posts"
+    create: true
+    slug: "{{slug}}"
+    editor:
+      preview: true
+    fields:
+      - {label: "Tytuł", name: "title", widget: "string"}
+      - {label: "Data publikacji", name: "date", widget: "datetime", format: "YYYY-MM-DDTHH:mm:ss"}
+      - {label: "Draft", name: "draft", widget: "boolean", default: false}
+      - {label: "Autor", name: "author", widget: "relation", collection: "authors", search_fields: ["name"], value_field: "name", display_fields: ["name"], required: false}
+      - {label: "Kategorie", name: "categories", widget: "list", required: false}
+      - {label: "Tagi", name: "tags", widget: "list", required: false}
+      - {label: "Obrazek wyróżniający", name: "image", widget: "image", required: false}
+      - {label: "Opis (excerpt)", name: "description", widget: "text", required: false}
+      - {label: "Treść", name: "body", widget: "markdown"}
+
+  # Pages (static pages like About, Contact)
+  - name: "pages"
+    label: "Strony"
+    folder: "content/pages"
+    create: true
+    slug: "{{slug}}"
+    editor:
+      preview: true
+    fields:
+      - {label: "Tytuł", name: "title", widget: "string"}
+      - {label: "Data", name: "date", widget: "datetime", format: "YYYY-MM-DDTHH:mm:ss"}
+      - {label: "Draft", name: "draft", widget: "boolean", default: false}
+      - {label: "Menu", name: "menu", widget: "string", required: false, hint: "np. 'main' aby dodać do menu głównego"}
+      - {label: "Treść", name: "body", widget: "markdown"}
+
+  # Authors (profiles)
+  - name: "authors"
+    label: "Autorzy"
+    folder: "content/authors"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: name
+    editor:
+      preview: false
+    fields:
+      - {label: "Imię i nazwisko", name: "name", widget: "string"}
+      - {label: "Email", name: "email", widget: "string", required: false}
+      - {label: "Zdjęcie", name: "image", widget: "image", required: false}
+      - {label: "Bio", name: "bio", widget: "text", required: false}
+      - {label: "Social media", name: "social", widget: "object", required: false, fields: [
+          {label: "Twitter", name: "twitter", widget: "string", required: false},
+          {label: "GitHub", name: "github", widget: "string", required: false},
+          {label: "LinkedIn", name: "linkedin", widget: "string", required: false}
+        ]}
