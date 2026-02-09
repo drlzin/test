@@ -1,0 +1,15 @@
+{{ define "main" }}
+<h2>Welcome</h2>
+<p>{{ .Site.Params.description }}</p>
+
+<h3>Recent Posts</h3>
+{{ range first 5 (where .Site.RegularPages "Type" "posts") }}
+<article>
+    <h4><a href="{{ .Permalink }}">{{ .Title }}</a></h4>
+    <p>{{ .Date.Format "2006-01-02" }}</p>
+    <p>{{ .Summary }}</p>
+</article>
+{{ else }}
+<p>No posts yet.</p>
+{{ end }}
+{{ end }}
