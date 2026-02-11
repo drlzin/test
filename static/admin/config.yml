@@ -4,7 +4,7 @@
 backend:
   name: github
   repo: drlzin/test
-  branch: main
+  branch: master
 
 # run: `make hugo-cms`
 local_backend: true
