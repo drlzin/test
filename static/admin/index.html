@@ -7,6 +7,42 @@
   <title>DLR Zin content management</title>
 </head>
 <body>
+  <script>
+    (function() {
+      async function sha256(str) {
+        const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
+        return Array.from(new Uint8Array(buf))
+          .map(b => b.toString(16).padStart(2, "0")).join("");
+      }
+
+      const originalFetch = window.fetch;
+      window.fetch = async function(url, options) {
+        if (
+          options &&
+          options.method &&
+          options.method.toUpperCase() === "POST" &&
+          typeof url === "string" &&
+          url.includes("/git/commits")
+        ) {
+          try {
+            const body = JSON.parse(options.body);
+            console.log("before:", JSON.parse(JSON.stringify(body)));
+            const hash = body.author?.email ? await sha256(body.author.email) : "unknown";
+            if (body.author) {
+              body.author = { ...body.author, email: hash };
+            }
+            if (body.committer) {
+              body.committer = { ...body.committer, email: hash };
+            }
+            console.log("after:", JSON.parse(JSON.stringify(body)));
+            options = { ...options, body: JSON.stringify(body) };
+          } catch (e) {
+            console.warn("error while modifying /git/commit/:", e);
+          }
+        }
+        return originalFetch.apply(this, [url, options]);
+      };
+    })();  </script>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 </body>
 </html>
