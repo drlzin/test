@@ -2,6 +2,9 @@ baseURL = 'https://drlzin.github.io/test/'
 languageCode = 'pl'
 title = 'DLR Zin'
 
+[permalinks]
+  posts = '/:year/:month/:day/:slug/'
+
 [params]
 description = 'Rewolucja nie jest jabłkiem, które spada, kiedy jest dojrzałe. Trzeba sprawić, by spadło.'
 
