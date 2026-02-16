@@ -15,7 +15,7 @@ help:
 	@echo "  make clean            - Wyczyść wygenerowane pliki"
 
 hugo:
-	hugo server --buildDrafts --buildFuture --baseURL "http://localhost:1313/"
+	hugo server --buildDrafts --buildFuture
 
 hugo-cms:
 	@./scripts/start-cms-local.sh

@@ -36,7 +36,8 @@ sleep 2
 echo "Uruchamianie Hugo server (port 1313)..."
 echo ""
 
-hugo server --buildDrafts --buildFuture --baseURL "http://localhost:1313/" &
+# hugo server --buildDrafts --buildFuture --baseURL "http://localhost:1313/" &
+hugo server --buildDrafts --buildFuture &
 HUGO_PID=$!
 
 # Cleanup function
@@ -59,8 +60,8 @@ echo "╔═══════════════════════�
 echo "║   Serwery uruchomione!                             ║"
 echo "╚════════════════════════════════════════════════════╝"
 echo ""
-echo "CMS Panel:  http://localhost:1313/admin/"
-echo "Strona:     http://localhost:1313/"
+echo "CMS Panel:  http://localhost:1313/test/admin/"
+echo "Strona:     http://localhost:1313/test/"
 echo ""
 echo "Zmiany w CMS będą zapisywane lokalnie do plików."
 echo "Naciśnij Ctrl+C aby zatrzymać."

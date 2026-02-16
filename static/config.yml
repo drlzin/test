@@ -28,7 +28,7 @@ auth:
 
 logo_url: https://decapbridge.com/decapcms-with-bridge.svg
 
-site_url: https://drlzin.github.io
+site_url: https://drlzin.github.io/test
 
 # run: `make hugo-cms`
 local_backend: true
@@ -38,7 +38,7 @@ publish_mode: editorial_workflow
 
 # Media files
 media_folder: "static/images/uploads"
-public_folder: "/images/uploads"
+public_folder: "images/uploads"
 
 collections:
   # Blog Posts
