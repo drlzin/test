@@ -1,10 +1,18 @@
 {{ define "main" }}
-<article>
-    <h2>{{ .Title }}</h2>
-    <p>{{ .Date.Format "2006-01-02" }}</p>
+<article class="article">
+    <header class="article-header">
+        <time class="article-meta" datetime="{{ .Date.Format "2006-01-02" }}">
+            {{ .Date.Format "2006-01-02" }}
+        </time>
+        <h1 class="article-title">{{ .Title }}</h1>
+    </header>
+
     {{ with .Params.image }}
-    <img src="{{ strings.TrimLeft "/" . | absURL }}" alt="{{ $.Title }}">
+    <img src="{{ strings.TrimLeft "/" . | relURL }}" alt="{{ $.Title }}" class="article-image">
     {{ end }}
-    {{ .Content }}
+
+    <div class="article-content">
+        {{ .Content }}
+    </div>
 </article>
 {{ end }}

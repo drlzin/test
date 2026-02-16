@@ -3,19 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
     <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
 </head>
 <body>
-    <header>
-        <h1>{{ .Site.Title }}</h1>
-        <nav>
-            <a href="{{ site.Home.Permalink }}">Home</a>
-            <a href="{{ "posts" | relref . }}">Posts</a>
-        </nav>
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="{{ .Site.Home.Permalink }}" class="site-logo">{{ .Site.Title }}</a>
+            <nav class="site-nav">
+                <a href="{{ .Site.Home.Permalink }}">Start</a>
+                <a href="{{ "posts" | relref . }}">Artykuły</a>
+            </nav>
+        </div>
     </header>
+
     <main>
         {{ block "main" . }}{{ end }}
     </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <span class="footer-text">&copy; {{ now.Year }} {{ .Site.Title }}</span>
+            <span class="footer-quote">{{ .Site.Params.description }}</span>
+        </div>
+    </footer>
 </body>
 </html>

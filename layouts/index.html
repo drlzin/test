@@ -1,15 +1,31 @@
 {{ define "main" }}
-<h2>Welcome</h2>
-<p>{{ .Site.Params.description }}</p>
+<section class="hero">
+    <p class="hero-tagline">{{ .Site.Params.description }}</p>
+</section>
 
-<h3>Recent Posts</h3>
-{{ range first 5 (where .Site.RegularPages "Type" "posts") }}
-<article>
-    <h4><a href="{{ .Permalink }}">{{ .Title }}</a></h4>
-    <p>{{ .Date.Format "2006-01-02" }}</p>
-    <p>{{ .Summary }}</p>
-</article>
-{{ else }}
-<p>No posts yet.</p>
-{{ end }}
+<section>
+    <h2 class="section-title">Najnowsze</h2>
+
+    {{ $posts := where .Site.RegularPages "Type" "posts" }}
+    {{ if $posts }}
+    <div class="posts-grid">
+        {{ range first 7 $posts }}
+        <article class="post-card">
+            {{ with .Params.image }}
+            <img src="{{ strings.TrimLeft "/" . | relURL }}" alt="{{ $.Title }}" class="post-card__image">
+            {{ end }}
+            <time class="post-card__meta" datetime="{{ .Date.Format "2006-01-02" }}">
+                {{ .Date.Format "2006-01-02" }}
+            </time>
+            <h3 class="post-card__title">
+                <a href="{{ .Permalink }}">{{ .Title }}</a>
+            </h3>
+            <p class="post-card__excerpt">{{ .Summary | plainify | truncate 150 }}</p>
+        </article>
+        {{ end }}
+    </div>
+    {{ else }}
+    <p class="no-posts">Brak artykułów.</p>
+    {{ end }}
+</section>
 {{ end }}

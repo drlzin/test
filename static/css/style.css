@@ -1,15 +1,601 @@
+/* ============================================================
+   DLR ZIN - LEWACKA GAZETA
+   Revolutionary Editorial Design System
+
+   Aesthetic: Brutalist-editorial hybrid
+   Inspired by worker's movement posters & modern magazines
+   ============================================================ */
+
+/* ============================================================
+   CSS CUSTOM PROPERTIES
+   ============================================================ */
+:root {
+    /* Color Palette - Dwie Lewe Ręce */
+    --red: #A31621;
+    --red-dark: #7D111A;
+    --red-light: #C41E2A;
+    --white: #FFFFFF;
+    --black: #1A1A1A;
+    --gray-dark: #374151;
+    --gray: #6B7280;
+    --gray-light: #D1D5DB;
+    --gray-lighter: #F3F4F6;
+    --bg: #FAFAF9;
+
+    /* Typography - System Fonts Only */
+    /* Display: Impact (Win/Mac), Arial Black fallback */
+    --font-display: Impact, "Arial Black", "Helvetica Neue", sans-serif;
+    /* Body: condensed/geometric sans-serif */
+    /* Android: Roboto Condensed | Windows: Century Gothic | macOS/iOS: Avenir Next Condensed */
+    --font-body: "Roboto Condensed", "Century Gothic", "Avenir Next Condensed", Avenir, sans-serif;
+
+    /* Type Scale - Mobile First */
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-base: 1.0625rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.25rem;
+    --text-2xl: 1.5rem;
+    --text-3xl: 2rem;
+    --text-4xl: 2.5rem;
+    --text-5xl: 3.5rem;
+    --text-6xl: 4.5rem;
+
+    /* Spacing */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.25rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --space-10: 2.5rem;
+    --space-12: 3rem;
+    --space-16: 4rem;
+    --space-20: 5rem;
+
+    /* Layout */
+    --max-width: 1280px;
+    --content-width: 720px;
+    --header-height: 80px;
+
+    /* Effects */
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+    --shadow: 0 4px 6px rgba(0,0,0,0.07);
+    --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+    --transition: 0.2s ease;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
 body {
-    font-family: sans-serif;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: 1.7;
+    color: var(--black);
+    background-color: var(--bg);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
 }
 
-a {
-    color: #007acc;
+h1, h2, h3, h4, h5, h6, p, ul, ol, figure, blockquote {
+    margin: 0;
 }
 
-article img {
+ul, ol {
+    padding: 0;
+}
+
+img {
     max-width: 100%;
     height: auto;
+    box-sizing: border-box;
+    display: block;
+}
+
+time {
+    display: block;
+}
+
+article, section, header, footer, nav, main, div, a, span, img {
+    box-sizing: border-box;
+}
+
+input, textarea, button {
+    box-sizing: border-box;
+}
+
+::selection {
+    background: var(--red);
+    color: var(--white);
+}
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1.0;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--black);
+}
+
+h1 { font-size: var(--text-5xl); }
+h2 { font-size: var(--text-4xl); }
+h3 { font-size: var(--text-3xl); }
+h4 { font-size: var(--text-2xl); }
+
+p {
+    margin-bottom: var(--space-4);
+}
+
+p:last-child {
+    margin-bottom: 0;
+}
+
+strong, b {
+    font-weight: 700;
+}
+
+blockquote {
+    border-left: 4px solid var(--red);
+    padding-left: var(--space-6);
+    margin: var(--space-8) 0;
+    font-style: italic;
+    font-size: var(--text-lg);
+    color: var(--gray-dark);
+}
+
+/* ============================================================
+   LINKS
+   ============================================================ */
+a {
+    color: var(--red);
+    text-decoration: none;
+    transition: color var(--transition);
+}
+
+a:hover {
+    color: var(--red-dark);
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.site-header {
+    background: var(--black);
+    color: var(--white);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 4px solid var(--red);
+}
+
+.header-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: var(--space-4) var(--space-6);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+}
+
+.site-logo {
+    font-family: var(--font-display);
+    font-size: var(--text-3xl);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--white);
+    text-decoration: none;
+    position: relative;
+}
+
+.site-logo::before {
+    content: '';
+    position: absolute;
+    left: -var(--space-4);
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 100%;
+    background: var(--red);
+}
+
+/* Navigation */
+.site-nav {
+    display: flex;
+    gap: var(--space-2);
+}
+
+.site-nav a {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--white);
+    padding: var(--space-2) var(--space-4);
+    position: relative;
+    opacity: 0.85;
+    transition: opacity var(--transition);
+}
+
+.site-nav a:hover {
+    opacity: 1;
+    color: var(--white);
+}
+
+.site-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: var(--space-4);
+    right: var(--space-4);
+    height: 2px;
+    background: var(--red);
+    transform: scaleX(0);
+    transition: transform var(--transition);
+}
+
+.site-nav a:hover::after {
+    transform: scaleX(1);
+}
+
+/* ============================================================
+   MAIN CONTENT
+   ============================================================ */
+main {
+    flex: 1;
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: var(--space-8) var(--space-6);
+}
+
+/* ============================================================
+   HOMEPAGE
+   ============================================================ */
+.hero {
+    margin-bottom: var(--space-12);
+    padding-bottom: var(--space-8);
+    border-bottom: 1px solid var(--gray-light);
+}
+
+.hero-tagline {
+    font-family: var(--font-body);
+    font-size: var(--text-xl);
+    font-style: italic;
+    color: var(--gray-dark);
+    max-width: 600px;
+    line-height: 1.5;
+}
+
+.section-title {
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-6);
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.section-title::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: var(--gray-light);
+}
+
+/* ============================================================
+   ARTICLE CARDS
+   ============================================================ */
+.posts-grid {
+    display: grid;
+    gap: var(--space-8);
+}
+
+.post-card {
+    background: var(--white);
+    border: 1px solid var(--gray-light);
+    padding: var(--space-6);
+    position: relative;
+    transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.post-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.post-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--red);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.3s ease;
+}
+
+.post-card:hover::before {
+    transform: scaleY(1);
+}
+
+.post-card__image {
+    max-width: none;
+    width: calc(100% + 3rem);
+    margin: -1.5rem -1.5rem var(--space-4) -1.5rem;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+}
+
+.post-card__meta {
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: var(--space-2);
+}
+
+.post-card__title {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-3);
+    line-height: 1.1;
+}
+
+.post-card__title a {
+    color: var(--black);
+    text-decoration: none;
+}
+
+.post-card__title a:hover {
+    color: var(--red);
+}
+
+.post-card__excerpt {
+    font-size: var(--text-base);
+    color: var(--gray-dark);
+    line-height: 1.6;
+}
+
+/* Featured Post - First post larger */
+.posts-grid .post-card:first-child {
+    grid-column: 1 / -1;
+}
+
+.posts-grid .post-card:first-child .post-card__title {
+    font-size: var(--text-4xl);
+}
+
+/* ============================================================
+   SINGLE ARTICLE
+   ============================================================ */
+.article {
+    max-width: var(--content-width);
+    margin: 0 auto;
+}
+
+.article-header {
+    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-6);
+    border-bottom: 1px solid var(--gray-light);
+}
+
+.article-meta {
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: var(--space-4);
+}
+
+.article-title {
+    font-size: var(--text-5xl);
+    line-height: 1.0;
+    margin-bottom: var(--space-4);
+}
+
+.article-image {
+    width: 100%;
+    margin-bottom: var(--space-8);
+    aspect-ratio: 16/9;
+    object-fit: cover;
+}
+
+/* Article Content Typography */
+.article-content {
+    font-size: var(--text-lg);
+}
+
+.article-content h2 {
+    font-size: var(--text-3xl);
+    margin-top: var(--space-12);
+    margin-bottom: var(--space-4);
+    color: var(--red);
+}
+
+.article-content h3 {
+    font-size: var(--text-2xl);
+    margin-top: var(--space-8);
+    margin-bottom: var(--space-3);
+}
+
+.article-content p {
+    margin-bottom: var(--space-6);
+}
+
+.article-content ul,
+.article-content ol {
+    margin-bottom: var(--space-6);
+    padding-left: var(--space-6);
+}
+
+.article-content li {
+    margin-bottom: var(--space-2);
+}
+
+.article-content img {
+    max-width: 100%;
+    height: auto;
+    margin: var(--space-8) 0;
+}
+
+.article-content a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+/* ============================================================
+   LIST PAGE
+   ============================================================ */
+.page-title {
+    font-size: var(--text-5xl);
+    margin-bottom: var(--space-8);
+    position: relative;
+    display: inline-block;
+}
+
+.page-title::after {
+    content: '';
+    position: absolute;
+    bottom: -var(--space-2);
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background: var(--red);
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer {
+    background: var(--black);
+    color: var(--white);
+    padding: var(--space-8) var(--space-6);
+    margin-top: auto;
+}
+
+.footer-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+}
+
+.footer-text {
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.7;
+}
+
+.footer-quote {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: var(--text-sm);
+    opacity: 0.7;
+    max-width: 400px;
+}
+
+/* ============================================================
+   NO POSTS MESSAGE
+   ============================================================ */
+.no-posts {
+    text-align: center;
+    padding: var(--space-16) var(--space-8);
+    color: var(--gray);
+    font-style: italic;
+}
+
+/* ============================================================
+   RESPONSIVE - TABLET
+   ============================================================ */
+@media (min-width: 640px) {
+    :root {
+        --text-5xl: 4rem;
+        --text-6xl: 5rem;
+    }
+
+    .posts-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .posts-grid .post-card:first-child {
+        grid-column: 1 / -1;
+    }
+}
+
+/* ============================================================
+   RESPONSIVE - DESKTOP
+   ============================================================ */
+@media (min-width: 1024px) {
+    :root {
+        --text-5xl: 5rem;
+        --text-6xl: 6rem;
+    }
+
+    .header-inner {
+        padding: var(--space-5) var(--space-8);
+    }
+
+    .site-logo {
+        font-size: var(--text-4xl);
+    }
+
+    main {
+        padding: var(--space-12) var(--space-8);
+    }
+
+    .posts-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-6);
+    }
+
+    .posts-grid .post-card:first-child {
+        grid-column: 1 / 3;
+        grid-row: 1 / 3;
+    }
+
+    .posts-grid .post-card:first-child .post-card__image {
+        aspect-ratio: 4/3;
+    }
+}
+
+/* ============================================================
+   PRINT STYLES
+   ============================================================ */
+@media print {
+    .site-header,
+    .site-footer,
+    .site-nav {
+        display: none;
+    }
+
+    body {
+        background: white;
+        color: black;
+    }
+
+    .article {
+        max-width: 100%;
+    }
 }
