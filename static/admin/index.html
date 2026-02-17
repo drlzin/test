@@ -47,53 +47,129 @@
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   <script>
     var FocalPointControl = createClass({
-      handleClick: function(e) {
-        var rect = e.currentTarget.getBoundingClientRect();
-        var x = Math.round((e.clientX - rect.left) / rect.width * 100);
-        var y = Math.round((e.clientY - rect.top) / rect.height * 100);
-        this.props.onChange(x + '% ' + y + '%');
+      getInitialState: function() {
+        return { naturalWidth: 0, naturalHeight: 0, dragging: false };
       },
+
+      componentWillUnmount: function() {
+        document.removeEventListener('mousemove', this.handleMouseMove);
+        document.removeEventListener('mouseup', this.handleMouseUp);
+      },
+
+      handleImageLoad: function(e) {
+        this.setState({
+          naturalWidth: e.target.naturalWidth,
+          naturalHeight: e.target.naturalHeight
+        });
+      },
+
+      // Rectangle size as fraction of image (0–1), fitting 16:9 inside the image.
+      getRectFractions: function() {
+        var nw = this.state.naturalWidth;
+        var nh = this.state.naturalHeight;
+        if (!nw || !nh) return null;
+        var imgRatio = nw / nh;
+        var target = 16 / 9;
+        return imgRatio > target
+          ? { w: target / imgRatio, h: 1 }
+          : { w: 1, h: imgRatio / target };
+      },
+
+      // object-position "X% Y%" → rectangle top-left as fraction of image.
+      valueToPosXY: function(value, rf) {
+        var parts = (value || '50% 50%').split(/\s+/);
+        var xp = parseFloat(parts[0]) || 50;
+        var yp = parseFloat(parts[1]) || 50;
+        return {
+          x: (1 - rf.w) > 0.0001 ? (xp / 100) * (1 - rf.w) : 0,
+          y: (1 - rf.h) > 0.0001 ? (yp / 100) * (1 - rf.h) : 0
+        };
+      },
+
+      // Rectangle top-left as fraction → object-position "X% Y%".
+      posXYToValue: function(px, py, rf) {
+        var xp = (1 - rf.w) > 0.0001 ? Math.round(px / (1 - rf.w) * 100) : 50;
+        var yp = (1 - rf.h) > 0.0001 ? Math.round(py / (1 - rf.h) * 100) : 50;
+        return Math.max(0, Math.min(100, xp)) + '% ' + Math.max(0, Math.min(100, yp)) + '%';
+      },
+
+      updateFromMouse: function(clientX, clientY) {
+        var rf = this.getRectFractions();
+        if (!rf || !this._containerRect) return;
+        var cr = this._containerRect;
+        var fx = (clientX - cr.left) / cr.width;
+        var fy = (clientY - cr.top) / cr.height;
+        var px = Math.max(0, Math.min(1 - rf.w, fx - rf.w / 2));
+        var py = Math.max(0, Math.min(1 - rf.h, fy - rf.h / 2));
+        this.props.onChange(this.posXYToValue(px, py, rf));
+      },
+
+      handleMouseDown: function(e) {
+        e.preventDefault();
+        this._containerRect = e.currentTarget.getBoundingClientRect();
+        this.updateFromMouse(e.clientX, e.clientY);
+        this.setState({ dragging: true });
+        document.addEventListener('mousemove', this.handleMouseMove);
+        document.addEventListener('mouseup', this.handleMouseUp);
+      },
+
+      handleMouseMove: function(e) {
+        if (!this.state.dragging) return;
+        this.updateFromMouse(e.clientX, e.clientY);
+      },
+
+      handleMouseUp: function() {
+        this.setState({ dragging: false });
+        this._containerRect = null;
+        document.removeEventListener('mousemove', this.handleMouseMove);
+        document.removeEventListener('mouseup', this.handleMouseUp);
+      },
+
       render: function() {
         var value = this.props.value || '50% 50%';
         var image = this.props.entry.getIn(['data', 'image']);
-        var parts = value.split(/\s+/);
-        var x = parseInt(parts[0]) || 50;
-        var y = parseInt(parts[1]) || 50;
-
         if (!image) {
           return h('p', {}, 'Najpierw dodaj obrazek wyróżniający.');
         }
+
+        var rf = this.getRectFractions();
+        var pos = rf ? this.valueToPosXY(value, rf) : null;
 
         return h('div', {},
           h('div', {
             style: {
               position: 'relative',
               display: 'inline-block',
-              cursor: 'crosshair',
-              maxWidth: '100%'
-            }
+              cursor: this.state.dragging ? 'grabbing' : 'crosshair',
+              maxWidth: '100%',
+              userSelect: 'none',
+              WebkitUserSelect: 'none',
+              overflow: 'hidden'
+            },
+            onMouseDown: this.handleMouseDown
           },
             h('img', {
               src: image,
-              onClick: this.handleClick,
-              style: { maxWidth: '100%', display: 'block' }
+              onLoad: this.handleImageLoad,
+              style: { maxWidth: '100%', display: 'block', pointerEvents: 'none' },
+              draggable: false
             }),
-            h('div', {
+            rf && pos ? h('div', {
               style: {
                 position: 'absolute',
-                left: x + '%',
-                top: y + '%',
-                width: '16px',
-                height: '16px',
-                borderRadius: '50%',
-                border: '2px solid #ff0000',
-                background: 'rgba(255,0,0,0.3)',
-                transform: 'translate(-50%, -50%)',
+                left: (pos.x * 100) + '%',
+                top: (pos.y * 100) + '%',
+                width: (rf.w * 100) + '%',
+                height: (rf.h * 100) + '%',
+                border: '2px solid rgba(255,0,0,0.8)',
+                boxShadow: '0 0 0 9999px rgba(0,0,0,0.45)',
+                boxSizing: 'border-box',
                 pointerEvents: 'none'
               }
-            })
+            }) : null
           ),
-          h('small', { style: { color: '#666' } }, 'Punkt ogniskowy: ' + value)
+          h('small', { style: { color: '#666' } },
+            rf ? 'Widoczny obszar (16:9): ' + value : 'Ładowanie...')
         );
       }
     });
