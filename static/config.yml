@@ -37,7 +37,7 @@ local_backend: true
 publish_mode: editorial_workflow
 
 # Media files
-media_folder: "static/images/uploads"
+media_folder: "assets/images/uploads"
 public_folder: "images/uploads"
 
 collections:

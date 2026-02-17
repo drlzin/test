@@ -8,7 +8,7 @@
     </header>
 
     {{ with $.Params.image }}
-    <img src="{{ strings.TrimLeft "/" . | relURL }}" alt="{{ $.Title }}" class="article-image" style="object-position: {{ $.Params.image_focus | default `50% 50%` }}">
+    {{ partial "image.html" (dict "src" . "alt" $.Title "class" "article-image" "style" (printf "object-position: %s" ($.Params.image_focus | default "50% 50%")) "sizes" "(max-width: 640px) 100vw, 720px") }}
     {{ end }}
 
     <div class="article-content">
