@@ -45,5 +45,59 @@
       };
     })();  </script>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-</body>
+  <script>
+    var FocalPointControl = createClass({
+      handleClick: function(e) {
+        var rect = e.currentTarget.getBoundingClientRect();
+        var x = Math.round((e.clientX - rect.left) / rect.width * 100);
+        var y = Math.round((e.clientY - rect.top) / rect.height * 100);
+        this.props.onChange(x + '% ' + y + '%');
+      },
+      render: function() {
+        var value = this.props.value || '50% 50%';
+        var image = this.props.entry.getIn(['data', 'image']);
+        var parts = value.split(/\s+/);
+        var x = parseInt(parts[0]) || 50;
+        var y = parseInt(parts[1]) || 50;
+
+        if (!image) {
+          return h('p', {}, 'Najpierw dodaj obrazek wyróżniający.');
+        }
+
+        return h('div', {},
+          h('div', {
+            style: {
+              position: 'relative',
+              display: 'inline-block',
+              cursor: 'crosshair',
+              maxWidth: '100%'
+            }
+          },
+            h('img', {
+              src: image,
+              onClick: this.handleClick,
+              style: { maxWidth: '100%', display: 'block' }
+            }),
+            h('div', {
+              style: {
+                position: 'absolute',
+                left: x + '%',
+                top: y + '%',
+                width: '16px',
+                height: '16px',
+                borderRadius: '50%',
+                border: '2px solid #ff0000',
+                background: 'rgba(255,0,0,0.3)',
+                transform: 'translate(-50%, -50%)',
+                pointerEvents: 'none'
+              }
+            })
+          ),
+          h('small', { style: { color: '#666' } }, 'Punkt ogniskowy: ' + value)
+        );
+      }
+    });
+
+    CMS.registerWidget('focal-point', FocalPointControl);
+  </script></body>
 </html>

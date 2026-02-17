@@ -11,8 +11,9 @@
     <div class="posts-grid">
         {{ range first 7 $posts }}
         <article class="post-card">
+            {{ $post := . }}
             {{ with .Params.image }}
-            <img src="{{ strings.TrimLeft "/" . | relURL }}" alt="{{ $.Title }}" class="post-card__image">
+            <img src="{{ strings.TrimLeft "/" . | relURL }}" alt="{{ $post.Title }}" class="post-card__image" style="object-position: {{ $post.Params.image_focus | default `50% 50%` }}">
             {{ end }}
             <time class="post-card__meta" datetime="{{ .Date.Format "2006-01-02" }}">
                 {{ .Date.Format "2006-01-02" }}
