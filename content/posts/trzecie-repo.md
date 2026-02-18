@@ -8,4 +8,4 @@ może tym razem emaile nie wyciekają.
 
 Obrazek w treści posta:
 
-![](images/uploads/083.1-częśćdałosięuratować.jpg)
+![](images/uploads/083.1-częśćdałosięuratować.jpg)
