@@ -12,7 +12,7 @@
     {{ end }}
 
     <div class="article-content">
-        {{ .Content }}
+        {{ .Content | replaceRE `(\s)([aAiIoOuUwWzZ]) (\S)` "$1$2&nbsp;$3" | safeHTML }}
     </div>
 </article>
 {{ end }}

@@ -85,6 +85,8 @@ body {
     display: flex;
     flex-direction: column;
     margin: 0;
+    text-wrap: pretty;
+    overflow-wrap: break-word;
 }
 
 h1, h2, h3, h4, h5, h6, p, ul, ol, figure, blockquote {
@@ -129,6 +131,7 @@ h1, h2, h3, h4, h5, h6 {
     letter-spacing: 0.02em;
     text-transform: uppercase;
     color: var(--black);
+    text-wrap: balance;
 }
 
 h1 { font-size: var(--text-5xl); }
@@ -138,6 +141,8 @@ h4 { font-size: var(--text-2xl); }
 
 p {
     margin-bottom: var(--space-4);
+    orphans: 3;
+    widows: 3;
 }
 
 p:last-child {

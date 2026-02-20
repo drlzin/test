@@ -5,6 +5,12 @@ title = 'DLR Zin'
 [permalinks]
   posts = '/:year/:month/:day/:slug/'
 
+[markup.goldmark.extensions.typographer]
+leftDoubleQuote = '&bdquo;'
+rightDoubleQuote = '&ldquo;'
+leftSingleQuote = '&sbquo;'
+rightSingleQuote = '&lsquo;'
+
 [params]
 description = 'Rewolucja nie jest jabłkiem, które spada, kiedy jest dojrzałe. Trzeba sprawić, by spadło.'
 
