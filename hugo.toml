@@ -8,8 +8,8 @@ title = 'DLR Zin'
 [markup.goldmark.extensions.typographer]
 leftDoubleQuote = '&bdquo;'
 rightDoubleQuote = '&ldquo;'
-leftSingleQuote = '&sbquo;'
-rightSingleQuote = '&lsquo;'
+leftSingleQuote = '&raquo;'
+rightSingleQuote = '&laquo;'
 
 [params]
 description = 'Rewolucja nie jest jabłkiem, które spada, kiedy jest dojrzałe. Trzeba sprawić, by spadło.'
