@@ -74,6 +74,7 @@ html {
 body {
     font-family: var(--font-body);
     font-size: var(--text-base);
+    font-weight: 500;
     line-height: 1.7;
     color: var(--text);
     background-color: var(--bg);
@@ -115,7 +116,7 @@ input, textarea, button {
    ============================================================ */
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    font-weight: 400;
+    font-weight: 900;
     line-height: 1.0;
     letter-spacing: 0.02em;
     color: var(--red);
@@ -148,6 +149,20 @@ blockquote {
     font-style: italic;
     font-size: var(--text-lg);
     color: var(--gray-dark);
+}
+
+.article-image-credit,
+.article-byline__bio,
+.author-bio,
+.team-card__bio {
+    font-style: italic;
+    font-weight: 500;
+}
+
+.article-date,
+.article-author,
+.article-byline__author {
+    font-weight: 400;
 }
 
 /* ============================================================
@@ -615,7 +630,6 @@ main {
     margin-top: var(--space-1);
     text-align: right;
     font-size: clamp(1rem, 0.875rem + 0.5vw, 1.125rem);   /* 16 → 18px */
-    font-style: italic;
     color: var(--gray);
 }
 
@@ -645,7 +659,7 @@ main {
 }
 
 .article-content h3 {
-    font-weight: 400;
+    font-weight: 500;
     font-style: italic;
     font-size: clamp(1.25rem, 1vw + 0.875rem, 1.5rem);
     color: var(--red);
@@ -657,11 +671,12 @@ main {
 }
 
 .article-content p:first-of-type {
-    font-weight: bold;
+    font-weight: 800;
 }
 
 .article-content p:first-of-type strong {
     font-style: italic;
+    font-weight: inherit;
 }
 
 .article-content ul,
@@ -748,7 +763,6 @@ main {
 
 .article-byline__bio {
     font-size: var(--text-sm);
-    font-style: italic;
     line-height: 1.5;
     color: var(--gray-dark);
     margin: 0;
