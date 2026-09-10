@@ -2,4 +2,4 @@
 {{- with .Summary -}}{{- $pageDescription = . | plainify | htmlUnescape | chomp -}}{{- end -}}
 {{- with .Params.bio -}}{{- $pageDescription = . -}}{{- end -}}
 {{- with .Description -}}{{- $pageDescription = . -}}{{- end -}}
-{{- return $pageDescription | truncate 1000 "…" -}}
+{{- return (truncate 1000 "…" $pageDescription) -}}
