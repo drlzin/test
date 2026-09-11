@@ -24,6 +24,8 @@
     --text-soft: var(--gray-soft);
     --surface: lab(100% 0 0);
     --surface-light: lab(85% 0 15);
+    --on-surface-light: var(--black);
+    --on-red: var(--white);
 
     /* Typography - System Fonts Only */
     --font-body: "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, "DejaVu Sans", sans-serif;
@@ -202,23 +204,23 @@ a:hover {
 
 .header-banner {
     background-color: var(--surface-light);
-    color: var(--black);
+    color: var(--on-surface-light);
     text-align: center;
 }
 
 .header-banner > p > a {
     background-color: var(--red);
+    color: var(--on-red);
     padding: 0.3rem 0.5rem;
     margin: 0.5rem;
     display: inline-block;
-    color: white;
+    transition: background var(--transition);
 }
 
-[data-theme="dark"] .header-banner {
-    background-color: var(--surface-light);
-    color: var(--bg);
+.header-banner > p > a:hover {
+    background-color: var(--red-dark);
+    color: var(--on-red);
 }
-
 
 .site-logo {
     font-size: var(--text-2xl);
@@ -433,7 +435,7 @@ main {
 /* Title bar — sibling block below edition image, issue + title share cream bg. */
 .edition-card__title-bar {
     background: var(--surface-light);
-    color: var(--black);
+    color: var(--on-surface-light);
     padding: var(--space-2) var(--space-4);
     display: flex;
     align-items: baseline;
@@ -611,9 +613,15 @@ main {
 
 .article-edition-link {
     background: var(--surface-light);
-    color: var(--black);
+    color: var(--on-surface-light);
     padding: var(--space-1) var(--space-2);
     display: inline-block;
+    transition: background var(--transition);
+}
+
+.article-edition-link:hover {
+    color: var(--on-surface-light);
+    background: color-mix(in oklab, var(--surface-light), black 12%);
 }
 
 .article-image-figure {
@@ -637,6 +645,10 @@ main {
     color: inherit;
     text-decoration: underline;
     text-underline-offset: 2px;
+}
+
+.article-image-credit a:hover {
+    color: var(--red);
 }
 
 /* Article Content Typography */
@@ -981,13 +993,17 @@ main {
    ============================================================ */
 @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-        --gray-dark: lab(60% 0 0);
-        --gray: lab(40% 0 0);
+        --red: lab(66.78% 29.64 64.71);
+        --red-dark: lab(56.78% 29.64 64.71);
+        --gray-dark: lab(80% 0 0);
+        --gray: lab(80% 0 0);
         --gray-light: lab(25% 0 0);
         --bg: lab(7% 0 0);
         --text: lab(90% 0 0);
         --surface: lab(7% 0 0);
-        --surface-light: lab(95% 0 15);
+        --surface-light: lab(22% 4 14);
+        --on-surface-light: var(--white);
+        --on-red: var(--black);
     }
 
     :root:not([data-theme="light"]) .theme-toggle .icon-moon { display: none; }
@@ -995,13 +1011,17 @@ main {
 }
 
 [data-theme="dark"] {
-    --gray-dark: lab(60% 0 0);
-    --gray: lab(40% 0 0);
+    --red: lab(66.78% 29.64 64.71);
+    --red-dark: lab(56.78% 29.64 64.71);
+    --gray-dark: lab(80% 0 0);
+    --gray: lab(80% 0 0);
     --gray-light: lab(25% 0 0);
     --bg: lab(7% 0 0);
-    --text: lab(90% 0 0);
+    --text: lab(98% 0 0);
     --surface: lab(7% 0 0);
-    --surface-light: lab(95% 0 15);
+    --surface-light: lab(22% 4 14);
+    --on-surface-light: var(--white);
+    --on-red: var(--black);
 }
 
 /* ============================================================
