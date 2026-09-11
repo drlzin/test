@@ -1061,6 +1061,7 @@ main {
     .site-logo__img {
         height: calc(1em + 2 * var(--space-5));
         margin-block: calc(-1 * var(--space-5));
+        padding: var(--space-3);
     }
 
     .site-nav {
