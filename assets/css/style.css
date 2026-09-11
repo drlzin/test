@@ -466,7 +466,6 @@ main {
 .post-card__meta,
 .post-card__issue {
     font-family: var(--font-display);
-    text-transform: uppercase;
     margin-bottom: var(--space-2);
 }
 
